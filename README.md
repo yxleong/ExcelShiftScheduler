@@ -8,9 +8,10 @@ I created this project to address the need for an efficient way to arrange dorm 
 
 ## Features
 
-- Generate monthly calendars with shifts scheduled and checkboxes.
-- Automatically update the current date to red color daily.
-- Send LINE notification every Saturday.
+- **Generate Monthly Calendars**: Automatically creates monthly calendars with scheduled shifts and checkboxes for cleaning tasks.
+- **Dynamic Date Coloring**: Updates the current date to red color daily, ensuring easy identification and tracking of the present day in the calendar.
+- **Scheduled LINE Notifications**: Sends LINE notifications every Saturday to remind users of their cleaning tasks.
+- **Simple Feedback Mechanism**: Promotes effective communication and enables users to share thoughts on cleaning results.
 
 ## Demo
 
@@ -22,9 +23,12 @@ To begin using this project, you'll need the following:
 
 1. **Excel Sheet:** Prepare an Excel sheet with the necessary data for generating calendars and organizing cleaning shifts.
 ![image](https://github.com/yxleong/ExcelShiftScheduler/assets/95266740/cf5ec297-cf1f-4584-ae5b-6a0e9de9cccc)
-It's recommended to title your data in **red** color and place it at cell **L2** for optimal compatibility.
+It's recommended to title your data in **red** color and place it at cell **L2** for optimal compatibility. Also, change the sheet name "calendar"
+![image](https://github.com/yxleong/ExcelShiftScheduler/assets/95266740/3acb6739-01c8-45ea-a01e-719123f84ec5)
+Feedback sheet for your reference.
 
-2. **LINE Notify Access Token:** Obtain an access token for [LINE Notify](https://notify-bot.line.me/en/) to enable automated notifications.
+
+3. **LINE Notify Access Token:** Obtain an access token for [LINE Notify](https://notify-bot.line.me/en/) to enable automated notifications.
 ![image](https://github.com/yxleong/ExcelShiftScheduler/assets/95266740/5505319b-90c2-4d33-bac5-81317d91b5b8)
 ![image](https://github.com/yxleong/ExcelShiftScheduler/assets/95266740/aa123cb2-0036-4a89-97e8-8711c8abed27)
 
