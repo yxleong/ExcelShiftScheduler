@@ -4,11 +4,118 @@ let START_YEAR = 2023;
 let HOW_MANY_MONTH = 12;
 let DATA_RANGE = 'L3:L8';
 
+// special case: 
+let SPECIAL_DATA_RANGE = 'L3:L7';
+
 // Calendar display format
 let startRow = 1; // dayname row
 let numRows = 6; // include dayname
 let numCols = 7; // days
 let count = 0; // loop the data range
+
+function changeEverydayColor() {
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+
+  const todayDate = new Date();
+  var todayMonth = getMonthName(todayDate.getMonth() + 1);
+
+  const yesterdayDate = new Date(todayDate);
+  yesterdayDate.setDate(todayDate.getDate() - 1);
+  var yesterdayMonth = getMonthName(yesterdayDate.getMonth() + 1);
+  var yesterdayYear = yesterdayDate.getFullYear();
+  var yesterdayCalendar = yesterdayMonth + " " + yesterdayYear;
+
+  var startRow = 1;
+  var lastRow = sheet.getLastRow();
+
+  var changeRowStart = -1;
+  var changeRowEnd = -1;
+
+  for (var row = startRow; row <= lastRow; row++) {
+    var searchDate = sheet.getRange(row, 1).getValue();
+    if (searchDate instanceof Date) {
+      var searchMonth = getMonthName(searchDate.getMonth()+1);
+      var searchYear = searchDate.getFullYear();
+      var searchCalendar = searchMonth + " " + searchYear;
+      
+      if(((yesterdayDate.getMonth()+1+1)) >= 12){
+        var nextMonth = getMonthName(1);
+        var nextMonthYear = yesterdayDate.getFullYear() + 1;
+      } else {
+        var nextMonth = getMonthName(yesterdayDate.getMonth()+1+2);
+        var nextMonthYear = yesterdayDate.getFullYear();
+        
+      }
+      var nextMonthCalendar = nextMonth + " " + nextMonthYear;
+
+      if (searchCalendar === yesterdayCalendar) {
+        changeRowStart = row + 2;
+        currentMonth = yesterdayMonth;
+        currentYear = yesterdayYear;
+      }
+
+      if (searchCalendar === nextMonthCalendar) {
+        changeRowEnd = row - 2;
+        break;
+      }
+    }
+  }
+  setColor(sheet, todayDate, yesterdayDate, changeRowStart, changeRowEnd, numCols, todayMonth, yesterdayMonth);
+}
+
+function setColor(sheet, todayDate, yesterdayDate, changeRowStart, changeRowEnd, numCols, todayMonth, yesterdayMonth) {
+
+  var todayRow = changeRowStart;
+
+  for (var row = changeRowStart; row <= changeRowEnd; row++) {
+
+    for (var col = 1; col <= numCols; col++) {
+
+      var cell = sheet.getRange(row, col);
+      var cellDate = cell.getValue();
+
+      if (cell.getFontColor() === '#ff0000' && cellDate === yesterdayDate.getDate()){
+        todayRow = row;
+        cell.setFontColor('black');
+        break;
+      } 
+    }
+  }
+
+  var valid = 0;
+  var changed = 0;
+  for (var row = todayRow; row <= changeRowEnd; row++) {
+
+    for (var col = 1; col <= numCols; col++) {
+
+      var cell = sheet.getRange(row, col);
+      var cellDate = cell.getValue();
+
+      if(todayMonth === yesterdayMonth){
+        if (cellDate === todayDate.getDate()) {
+          // Change font color to red for today's date
+          cell.setFontColor('red');
+          changed = 1;
+        }
+      } else {
+        var searchDate = sheet.getRange(row, 1).getValue();
+        if(searchDate instanceof Date) {
+          var searchMonth = getMonthName(searchDate.getMonth()+1);
+          if(searchMonth === todayMonth){
+            valid = 1;
+          }
+        }
+        if (valid === 1 && cellDate === todayDate.getDate() && cell.getFontColor() != '#aaaaaa') {
+          // Change font color to red for today's date
+          cell.setFontColor('red'); 
+          changed = 1         
+        }
+      }
+    }
+
+    if(changed) break;
+  }
+}
 
 function generateCalendar() {
   var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
@@ -105,13 +212,20 @@ function getCalendar(sheet, startRow, numRows, numCols, month, year) {
 function setTasks(sheet, row, col) {
 
   var nameCell = sheet.getRange(row, col);
-  var referenceRange = sheet.getRange(DATA_RANGE);
+
+  if(row === 20) {
+    var referenceRange = sheet.getRange(SPECIAL_DATA_RANGE);
+  } else {
+    var referenceRange = sheet.getRange(DATA_RANGE);
+  }
 
   // get font color of Saturday column
   var satColor = sheet.getRange(row, col - 1).getFontColor();
+  var black = sheet.getRange('L3').getFontColor();
+  var red = sheet.getRange('L2').getFontColor();
 
   // check if the font color is not grey or blue
-  if (satColor === '#000000' || satColor === 'black' || satColor === '#FF0000' || satColor === 'red') {
+  if (satColor === black || satColor === red) {
     
     // offset within the specific data range
     var nameValue = referenceRange.offset(count++, 0).getValue();
@@ -125,7 +239,7 @@ function setTasks(sheet, row, col) {
     sheet.getRange(row, col + 1).insertCheckboxes();
 
     // to loop again the data given
-    if(count > nameValue.length - 1){
+    if(count >= referenceRange.getNumRows()){
       count = 0;
     }
   }
