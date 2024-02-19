@@ -81,13 +81,21 @@ Follow these steps to use this project in Google Sheets with Apps Script:
      - Select type of time-based trigger: `Week timer`.
      - Select day of the week: `Every Saturday`.
 
+## Completed Improvements
+
+As part of our commitment to continuous improvement, the following enhancements have been made to the project:
+
+- **Update Calendar Functionality:** Implemented an update function for the calendars. This function highlights today's date in red and reverts yesterday's date to its original black color, improving efficiency and reducing redundancy. (Implemented on Nov 18, 2023)
+
+- **Personalized Reminders via Line Notify:** We have enhanced our notification system to include personalized reminders. By utilizing Line Notify to mention individuals by name, we ensure that communications are direct and significantly more effective. This feature enhances the user experience by providing targeted reminders for specific tasks. (Implemented on Nov 18, 2023)
+
+- **Feedback Platform for Cleaning Results:** A feedback platform is aimed at fostering an environment where we can openly provide feedback without any hesitation or fear of embarrassment. It not only facilitates valuable insights into how we perceive the cleanliness of our shared spaces but also promotes a culture of continuous improvement among us. By closely monitoring satisfaction levels and identifying areas that require attention, we are better equipped to make adjustments that meet our collective expectations and improve our living situation. (Implemented on Nov 18, 2023)
+
 ## Potential Improvements
 
-While the project is functional, there are areas and features where improvements can be made.
+As we strive to enhance our shared living experience, we acknowledge the ongoing development and refinement of our project. We've identified a critical area for improvement:
 
-Some potential enhancements include:
-
-- **Update Calendar Functionality:** Instead of generating new calendars every time the code runs, consider implementing a function to update the existing calendars. This function could highlight today's date in red and revert yesterday's date to its original black color. This approach would improve efficiency and reduce redundancy.
+- **Feedback Platform Bug Fixes:** Currently, our feedback platform for cleaning results is experiencing technical difficulties, particularly with the feedback reception function. Users may encounter error messages such as "Exception: Service Spreadsheets failed while accessing document," "We're sorry, a server error occurred. Please wait a bit and try again," or "We're sorry, a server error occurred while reading from storage. Error code INTERNAL." These issues prevent the platform from reliably capturing and storing feedback, impacting our ability to review and act on the cleaning results effectively. We are prioritizing the resolution of these bugs to restore full functionality to the platform, ensuring that all roommates can submit their feedback without encountering errors.
 
 We welcome contributions and ideas from the community to make this project even better.
 
